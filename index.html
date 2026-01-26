@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo list App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="toDo-header">
+        <h2 id="title">ToDo List</h2>
+        <img src="img/task-icon.png" height="45px" alt="" />
+      </div>
+      <div class="toDo-body">
+        <input
+          type="text"
+          id="toDo-list-text"
+          class="toDo-input"
+          maxlength="35"
+          placeholder="Agrega una tarea..."
+        />
+        <img
+          src="img/add-task.png"
+          height="30px"
+          alt="+"
+          id="add-task-btn"
+          onclick="addTask()"
+        />
+      </div>
+      <h5 id="alertMsg"></h5>
+      <ul id="list-items" class="list-items"></ul>
+
+      <div class="footer">
+        <p>Creado por <a href="https://github.com/martinez1705cristian-eng"  target="_blank" class="autor">Cristian Martinez</a></p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
