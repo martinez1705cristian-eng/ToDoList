@@ -68,7 +68,7 @@ body {
 li {
     margin: 0 20px;
   list-style: none;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   padding: 10px;
   display: flex;
@@ -87,8 +87,8 @@ h5 {
 }
 
 .task-controls {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   padding: 3px;
   margin-right: 5px;
 }
@@ -98,6 +98,7 @@ h5 {
  justify-content: center;
  padding-top: 10px;
 }
+
 .footer > *{
   font-size: 20px;
 }
@@ -110,4 +111,11 @@ h5 {
   background-color:rgb(126, 31, 31);
   padding: 4px 8px;
   border-radius: 10px;
+ 
 }
+
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
+
