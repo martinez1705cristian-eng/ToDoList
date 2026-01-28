@@ -20,17 +20,29 @@
           maxlength="35"
           placeholder="Agrega una tarea..."
         />
-        <img
-          src="img/add-task.png"
-          height="30px"
-          alt="+"
-          id="add-task-btn"
-          onclick="addTask()"
-        />
+        <img src="img/add-task.png" height="30px" alt="+" id="add-task-btn" />
       </div>
       <h5 id="alertMsg"></h5>
       <ul id="list-items" class="list-items"></ul>
+      <div class="filter-controls">
+        <div id="all-control">Todas</div>
+        <div id="completed-control">Completadas</div>
+        <div id="active-control">Activas</div>
+      </div>
+      <div class="footer">Todos los derechos reservados ©</div>
     </div>
+
+
+    <div id="overplay" class="hidden">
+      <div class="modal">
+        <p id="textConfirm">¿Deseas eliminar esta tarea?</p>
+        <div class="botonsConfirm">
+          <button id="btnYes">Eliminar</button>
+          <button id="btnNo">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
 
     <script src="app.js"></script>
   </body>

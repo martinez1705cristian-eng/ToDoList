@@ -27,6 +27,7 @@ function addTask() {
 
   // Creamos el li
   const li = document.createElement("li");
+
   li.innerHTML = `
     <span>${text}</span>
     <div class="icon-controls">
@@ -51,14 +52,26 @@ function addTask() {
   
     </div>
   `;
+  const taskId = Date.now();
 
+  li.dataset.id = taskId;
+
+  toDoListItems.push({
+    id: taskId,
+    item: text,
+    status: false,
+  });
   listItems.appendChild(li); // lo añadimos al UL
 
-  toDoListItems.push({ item: text, status: false }); // añadimos el objeto al array
+  if (editing) {
+    alertMsg.innerText = "Tarea editada exitosamente!";
+  } else {
+    alertMsg.innerText = "Tarea creada exitosamente!";
+  }
 
-  alertMsg.innerText = "Tarea creada exitosamente!";
   toDolistText.value = ""; // vaciamo sel input
   toDolistText.focus(); // damos foco
+  editing = false;
 }
 
 toDolistText.addEventListener("keydown", (e) => {
@@ -70,6 +83,11 @@ toDolistText.addEventListener("keydown", (e) => {
 // Eschuamos el evento en el li que contenga la clase completed
 listItems.addEventListener("click", (e) => {
   if (e.target.classList.contains("completed")) {
+    if (editing) {
+      editingTrue();
+      return;
+    }
+
     const li = e.target.closest("li");
     const span = li.querySelector("span");
     const textTask = span.innerText;
@@ -88,12 +106,28 @@ listItems.addEventListener("click", (e) => {
 // Eschuamos el evento en el li que contenga la clase delete
 listItems.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
+    const btnYes = document.getElementById("btnYes");
+    const btnNo = document.getElementById("btnNo");
+    const overplay = document.getElementById("overplay");
     const li = e.target.closest("li");
     const text = li.querySelector("span").innerText;
 
-    toDoListItems = toDoListItems.filter((task) => task.item !== text); // filtra todo menos el array encontrado
-    li.remove(); // eliminamos el li del ul
-    alertMsg.innerText = "Tarea eliminada exitosamente"; // Da la alerta que se ha eliminado
+    if (editing) {
+      editingTrue();
+      return;
+    }
+
+    overplay.classList.remove("hidden");
+
+    btnYes.onclick = () => {
+      toDoListItems = toDoListItems.filter((task) => task.item !== text); // filtra todo menos el array encontrado
+      li.remove(); // eliminamos el li del ul
+      alertMsg.innerText = "Tarea eliminada exitosamente"; // Da la alerta que se ha eliminado
+      overplay.classList.add("hidden");
+    };
+    btnNo.onclick = () => {
+      overplay.classList.add("hidden");
+    };
   }
 });
 
@@ -101,7 +135,7 @@ listItems.addEventListener("click", (e) => {
 listItems.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit")) {
     if (editing) {
-      alert("Se esta editando una tarea!");
+      editingTrue();
       return;
     }
     editing = true;
@@ -118,6 +152,47 @@ listItems.addEventListener("click", (e) => {
 });
 
 addTaskBtn.addEventListener("click", (e) => {
-  if (editing) editing = false;
-  alertMsg.innerText = "Tarea editada exitosamente";
+  if (editing) {
+    if (toDolistText.value === "") {
+      alertMsg.innerText = "Escribe una tarea!";
+      toDolistText.focus();
+      return;
+    }
+  }
+  addTask();
 });
+
+window.addEventListener("load", () => {
+  toDolistText.focus(); // hacemos focus al iniciar la pagina
+});
+
+function editingTrue() {
+  alert("Se esta editando una tarea!");
+  toDolistText.focus();
+}
+
+const allFilter = document.getElementById("all-control");
+const completedFilter = document.getElementById("completed-control");
+const activeFilter = document.getElementById("active-control");
+
+function filterTask(condicion) {
+  const items = [...listItems.children];
+  items.forEach((li) => {
+    const id = Number(li.dataset.id);
+    const task = toDoListItems.find((task) => task.id === id);
+
+    li.style.display = condicion(task) ? "flex" : "none";
+  });
+}
+
+completedFilter.onclick = () => {
+  filterTask((task) => task.status === true);
+};
+
+allFilter.onclick = () => {
+  filterTask(() => true);
+};
+
+activeFilter.onclick = () => {
+  filterTask((task) => task.status === false);
+};
