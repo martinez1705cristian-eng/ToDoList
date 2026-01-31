@@ -15,16 +15,108 @@ body {
   justify-content: center;
 }
 
-.container {
+.container,
+.container-login {
   background-color: #ffffff;
   padding: 8px 8px 0px 8px;
   border-radius: 10px;
   max-width: 600px;
+  width: 600px;
+}
+
+.container-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+form {
   width: 80%;
+}
+#login-form {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  margin: 30px;
+  gap: 20px;
+}
+
+.form-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.form-group label {
+  width: 30%;
+  color: rgb(92, 92, 92);
+  font-size: 20px;
+  font-weight: 500;
+  margin-right: 20px;
+}
+
+.form-group input {
+  flex: 1;
+  border: none;
+  box-shadow: 0px 2px 0px 0px rgba(47, 208, 98, 0.5);
+  font-size: 20px;
+}
+
+.btns-form {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btns-form button {
+  width: 100px;
+  font-size: 20px;
+  background-color: orange;
+  border: none;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.btns-form button:hover {
+  transform: translateY(-4px);
+  background-color: #4caf50;
+  color: white;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.register-text {
+  font-size: 20px;
+}
+.register-btn {
+  outline: none;
+  text-decoration: none;
 }
 
 #title {
   font-size: 35px;
+}
+
+.user-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0px;
+
+}
+
+#layout {
+  cursor: pointer;
+  color:red;
+}
+
+.text-user {
+  font-size: 20px;
+  color: gray;
 }
 
 .toDo-header {
@@ -63,10 +155,8 @@ body {
   width: 55px;
 }
 
- 
-
 li {
-    margin: 0 20px;
+  margin: 0 20px;
   list-style: none;
   font-size: 20px;
   cursor: pointer;
@@ -93,46 +183,45 @@ h5 {
   margin-right: 5px;
 }
 
-
 .done {
   text-decoration: line-through;
   color: gray;
 }
 
-.filter-controls{
+.filter-controls {
   display: flex;
   gap: 20px;
   justify-content: end;
- font-size: 18px;
+  font-size: 18px;
   margin-top: 40px;
   color: rgb(75, 75, 75);
   font-weight: 500;
   cursor: pointer;
 }
 
-.footer{
+.footer {
   color: gray;
   font-weight: 500;
   display: flex;
   justify-content: center;
   margin: 10px 0;
- font-size: 18px;
+  font-size: 18px;
 }
 
-.hidden{
+.hidden {
   display: none !important;
 }
 
-#overplay{
+#overplay {
   position: fixed;
-  background: rgb(0,0,0,0.5);
+  background: rgb(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  inset: 0; /* encima de todo */ 
+  inset: 0; /* encima de todo */
 }
 
-.modal{
+.modal {
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -141,11 +230,10 @@ h5 {
   font-size: 20px;
 }
 
-.botonsConfirm{
+.botonsConfirm {
   margin-top: 15px;
   display: flex;
   justify-content: space-around;
-  
 }
 
 .botonsConfirm > button {
@@ -156,12 +244,17 @@ h5 {
   border-radius: 5px;
 }
 
-#btnYes{
+#btnYes {
   background-color: red;
   color: white;
 }
 
-#btnNo{
+#btnNo {
   background-color: green;
-  color:white;
+  color: white;
+}
+
+#textTaskDelete {
+  color: green;
+  font-style: oblique;
 }

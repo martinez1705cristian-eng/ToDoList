@@ -109,15 +109,18 @@ listItems.addEventListener("click", (e) => {
     const btnYes = document.getElementById("btnYes");
     const btnNo = document.getElementById("btnNo");
     const overplay = document.getElementById("overplay");
+    const textTask = document.getElementById("textTaskDelete");
     const li = e.target.closest("li");
     const text = li.querySelector("span").innerText;
+    console.log(text);
 
     if (editing) {
       editingTrue();
       return;
     }
 
-    overplay.classList.remove("hidden");
+    overplay.classList.remove("hidden"); // aparece el overplay - modal
+    textTask.innerText = `* ${text} *`; // mostramos en el modal el texto de la tarea a borrar
 
     btnYes.onclick = () => {
       toDoListItems = toDoListItems.filter((task) => task.item !== text); // filtra todo menos el array encontrado
@@ -196,3 +199,22 @@ allFilter.onclick = () => {
 activeFilter.onclick = () => {
   filterTask((task) => task.status === false);
 };
+
+const user = localStorage.getItem("user");
+
+if (!user) {
+  window.location.href = "login.html";
+}
+
+let userText = document.getElementById("user-email");
+const userString = JSON.parse(user);
+
+userText.innerText = userString.email;
+
+const layout= document.getElementById("layout");
+
+layout.addEventListener("click", () =>{
+  localStorage.removeItem("user");
+  window.location.href="login.html";
+  
+})
