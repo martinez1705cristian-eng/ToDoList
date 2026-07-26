@@ -78,11 +78,9 @@ let mesgModal = [
   {
     icon: '<i class="fa-solid fa-face-grin text-cyan-800 text-3xl"></i>',
     title: "¡Perfecto!",
-    message:
-      "Todas tus tareas estan completadas, sigue asi.",
+    message: "Todas tus tareas estan completadas, sigue asi.",
     cancelView: false,
   },
-
 ];
 
 const modal = document.getElementById("modal");
@@ -128,7 +126,7 @@ function renderTasks(tasks) {
     const li = document.createElement("li");
 
     li.className =
-      "flex items-center justify-between bg-[#eff6f6] p-2 rounded-lg shadow-sm";
+      "flex items-center justify-between bg-[#eff6f6] p-2 rounded-lg  shadow";
 
     const nameSpan = document.createElement("span");
     nameSpan.className = `flex-1 min-w-0 break-words text-xl text-gray-800 ${task.status ? "line-through opacity-50" : ""}`;
@@ -139,36 +137,38 @@ function renderTasks(tasks) {
 
     const editIcon = document.createElement("i");
     editIcon.className =
-      "fa-solid fa-pen text-gray-600 cursor-pointer rounded text-lg";
+      `fa-solid fa-pen text-gray-600 cursor-pointer text-xl ${task.status ? "!hidden" : ""}`;
     editIcon.addEventListener("click", () =>
       editTask(task.id, task.name, task.status),
     );
 
     const checkIcon = document.createElement("i");
     checkIcon.className =
-      "fa-solid fa-check text-gray-600 cursor-pointer rounded text-lg";
-    checkIcon.addEventListener("click", () =>
-      completeTask(task.id, task.name, task.status),
-    );
+      `fa-regular  cursor-pointer text-xl mr-2 ${task.status ? "fa-square-check text-secondary" : "fa-square text-gray-600"}`;
+    checkIcon.addEventListener("click", () => {
+      completeTask(task.id, task.name, task.status);
+    });
 
     const deleteIcon = document.createElement("i");
     deleteIcon.className =
-      "fa-regular fa-trash-can text-gray-600 cursor-pointer rounded text-lg";
+      `fa-regular fa-trash-can text-gray-600 cursor-pointer rounded text-xl ${task.status ? "" : "!hidden"}`;
     deleteIcon.addEventListener("click", () => {
       confirmDeleteTask(task.id);
       renderModal(mesgModal[1], true, deleteTask);
     });
 
     actionsDiv.appendChild(editIcon);
-    actionsDiv.appendChild(checkIcon);
+    //actionsDiv.appendChild(checkIcon);
     actionsDiv.appendChild(deleteIcon);
 
+    li.appendChild(checkIcon);
     li.appendChild(nameSpan);
     li.appendChild(actionsDiv);
 
     list.appendChild(li);
   });
 }
+
 
 function verificedTaskDuplicate() {
   renderModal(mesgModal[4], false, closeModal);
@@ -230,8 +230,7 @@ function filterCompletedTasks() {
   });
 
   const completedTasksConfirm = allTasks.filter((task) => !task.status);
-  console.log(completedTasksConfirm)
-
+  console.log(completedTasksConfirm);
 
   if (allTasks.length === 0) {
     renderModal(mesgModal[9], false, closeModal);
@@ -243,7 +242,7 @@ function filterCompletedTasks() {
     getTasks();
     return;
   }
-  
+
   if (completedTasksConfirm.length === 0) {
     renderModal(mesgModal[10], false, closeModal);
     getTasks();
@@ -274,19 +273,18 @@ function deleteTask() {
 }
 
 function completeTask(id, name, status) {
-  if (status) {
-    renderModal(mesgModal[2], false, closeModal);
-    return;
-  }
   try {
-    status = true;
-    for (const task of allTasks) {
-      if (task.id === id) {
-        task.status = true;
+  
+      for (const task of allTasks) {
+        if (task.id === id) {
+          task.status = !task.status;
+        }
       }
-    }
-    saveTasks();
-    getTasks();
+      saveTasks();
+      getTasks();
+      console.log(allTasks)
+      return;
+     
   } catch (error) {
     showServerErrorModal(error);
   }
