@@ -57,6 +57,41 @@ let mesgModal = [
     message: "",
     cancelView: false,
   },
+  {
+    icon: '<i class="fa-solid fa-circle-info text-[#183153] text-2xl"></i>',
+    title: "Modo invitado",
+    message:
+      "Estás usando el modo invitado. Tus tareas se guardan solo en este navegador.",
+    cancelView: false,
+  },
+  {
+    icon: '<i class="fa-solid fa-face-grin text-cyan-800 text-3xl"></i>',
+    title: "¡Todo en orden!",
+    message: "Muy bien, no tienes tareas pendientes sigue asi.",
+    cancelView: false,
+  },
+
+  {
+    icon: '<i class="fa-regular fa-face-frown-open text-cyan-800 text-3xl"></i>',
+    title: "¡Oops!",
+    message: "Parece que aún no has completado niguna tarea.",
+    cancelView: false,
+  },
+
+  {
+    icon: '<i class="fa-solid fa-face-dizzy text-cyan-800 text-3xl"></i>',
+    title: "¡Oops!",
+    message:
+      "Parece que aún no has creado niguna tarea. Agrega una tarea y completala.",
+    cancelView: false,
+  },
+
+  {
+    icon: '<i class="fa-solid fa-face-grin text-cyan-800 text-3xl"></i>',
+    title: "¡Perfecto!",
+    message: "Todas tus tareas estan completadas, sigue asi.",
+    cancelView: false,
+  },
 ];
 
 const modal = document.getElementById("modal");
@@ -111,58 +146,6 @@ function escapeHTML(str) {
   div.textContent = str;
   return div.innerHTML;
 }
-
-/*
-function renderTasks(tasks) {
-	const list = document.getElementById("taskList");
-	list.innerHTML = "";
-
-	tasks.forEach((task) => {
-		const li = document.createElement("li");
-
-		li.className =
-			"flex items-center justify-between bg-[#eff6f6] p-2 rounded-lg shadow-sm";
-
-		const nameSpan = document.createElement("span");
-		nameSpan.className = `flex-1 min-w-0 break-words text-xl text-gray-800 ${task.status ? "line-through opacity-50" : ""}`;
-		nameSpan.textContent = task.name;
-
-		const actionsDiv = document.createElement("div");
-		actionsDiv.className = "flex shrink-0  gap-4";
-
-		const editIcon = document.createElement("i");
-		editIcon.className =
-			"fa-solid fa-pen text-gray-600 cursor-pointer rounded text-lg";
-		editIcon.addEventListener("click", () =>
-			editTask(task.id, task.name, task.status),
-		);
-
-		const checkIcon = document.createElement("i");
-		checkIcon.className =
-			"fa-solid fa-check text-gray-600 cursor-pointer rounded text-lg";
-		checkIcon.addEventListener("click", () =>
-			completeTask(task.id, task.name, task.status),
-		);
-
-		const deleteIcon = document.createElement("i");
-		deleteIcon.className =
-			"fa-regular fa-trash-can text-gray-600 cursor-pointer rounded text-lg";
-		deleteIcon.addEventListener("click", () => {
-			confirmDeleteTask(task.id);
-			renderModal(mesgModal[1], true, deleteTask);
-		});
-
-		actionsDiv.appendChild(editIcon);
-		actionsDiv.appendChild(checkIcon);
-		actionsDiv.appendChild(deleteIcon);
-
-		li.appendChild(nameSpan);
-		li.appendChild(actionsDiv);
-
-		list.appendChild(li);
-	});
-}
-*/
 
 function renderTasks(tasks) {
   const list = document.getElementById("taskList");
@@ -267,8 +250,9 @@ async function getTasks() {
         Authorization: `Bearer ${token}`,
       },
     });
-    renderTasks(tasks); // paso como parametro el array de la respuesta de get y dibujo las tareas
-    return (allTasks = tasks); // guardo todas las tareas en un variable global
+
+    allTasks = tasks; // guardo todas las tareas en un variable global
+    renderTasks(allTasks); // paso como parametro el array de la respuesta de get y dibujo las tareas
   } catch (error) {
     showServerErrorModal(error);
   } finally {
@@ -280,6 +264,12 @@ function filterPendingTasks() {
   const pendingTasks = allTasks.filter((task) => {
     return task.status === false; // si uso {} debo retornar si no, puedo quitar el return
   });
+
+  if (pendingTasks.length === 0) {
+    renderModal(mesgModal[7], false, closeModal);
+    getTasks();
+    return;
+  }
   renderTasks(pendingTasks);
 }
 
@@ -287,6 +277,27 @@ function filterCompletedTasks() {
   const completedTasks = allTasks.filter((task) => {
     return task.status; // si uso {} debo retornar si no, puedo quitar el return
   });
+
+  const completedTasksConfirm = allTasks.filter((task) => !task.status);
+  console.log(completedTasksConfirm);
+
+  if (allTasks.length === 0) {
+    renderModal(mesgModal[9], false, closeModal);
+    return;
+  }
+
+  if (completedTasks.length === 0) {
+    renderModal(mesgModal[8], false, closeModal);
+    getTasks();
+    return;
+  }
+
+  if (completedTasksConfirm.length === 0) {
+    renderModal(mesgModal[10], false, closeModal);
+    getTasks();
+    return;
+  }
+
   renderTasks(completedTasks);
 }
 
@@ -311,14 +322,17 @@ async function deleteTask() {
 
 async function completeTask(id, name, status) {
   try {
+    const newStatus = !status;
+    const task = allTasks.find((t) => t.id === id);
+    if (task) task.status = newStatus;
 
-    status = !status;
-    
+    renderTasks(allTasks);
+
     const response = await axios.put(
       `${CONFIG.API_URL}/tasks/${id}`,
       {
         name,
-        status
+        status: newStatus,
       },
       {
         headers: {
@@ -326,8 +340,6 @@ async function completeTask(id, name, status) {
         },
       },
     );
-
-    await getTasks();
   } catch (error) {
     showServerErrorModal(error);
   }
@@ -339,13 +351,17 @@ async function editTask(id, name, status) {
     return;
   }
   const input = document.getElementById("inputTaskName");
+  input.value = name;
 
   input.classList.remove("hidden");
   renderModal(mesgModal[3], false, taskEdited);
   input.focus();
 
   async function taskEdited() {
-    if (input.value === "") {
+    if (
+      input.value.trim().replace(/\s{2,}/g, " ") === "" ||
+      input.value === name
+    ) {
       closeModal();
       return;
     }
@@ -360,8 +376,7 @@ async function editTask(id, name, status) {
     }
 
     try {
-      status = false;
-      name = input.value;
+      name = input.value.trim().replace(/\s{2,}/g, " ");
       const response = await axios.put(
         `${CONFIG.API_URL}/tasks/${id}`,
         {
