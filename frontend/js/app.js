@@ -114,6 +114,7 @@ function escapeHTML(str) {
 	return div.innerHTML;
 }
 
+/*
 function renderTasks(tasks) {
 	const list = document.getElementById("taskList");
 	list.innerHTML = "";
@@ -163,7 +164,58 @@ function renderTasks(tasks) {
 		list.appendChild(li);
 	});
 }
+*/
 
+function renderTasks(tasks) {
+  const list = document.getElementById("taskList");
+  list.innerHTML = "";
+
+  tasks.forEach((task) => {
+    const li = document.createElement("li");
+
+    li.className =
+      "flex items-center justify-between bg-[#eff6f6] p-2 rounded-lg  shadow";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.className = `flex-1 min-w-0 break-words text-xl text-gray-800 ${task.status ? "line-through opacity-50" : ""}`;
+    nameSpan.textContent = task.name;
+
+    const actionsDiv = document.createElement("div");
+    actionsDiv.className = "flex shrink-0  gap-4";
+
+    const editIcon = document.createElement("i");
+    editIcon.className =
+      `fa-solid fa-pen text-gray-600 cursor-pointer text-xl ${task.status ? "!hidden" : ""}`;
+    editIcon.addEventListener("click", () =>
+      editTask(task.id, task.name, task.status),
+    );
+
+    const checkIcon = document.createElement("i");
+    checkIcon.className =
+      `fa-regular  cursor-pointer text-xl mr-2 ${task.status ? "fa-square-check text-secondary" : "fa-square text-gray-600"}`;
+    checkIcon.addEventListener("click", () => {
+      completeTask(task.id, task.name, task.status);
+    });
+
+    const deleteIcon = document.createElement("i");
+    deleteIcon.className =
+      `fa-regular fa-trash-can text-gray-600 cursor-pointer rounded text-xl ${task.status ? "" : "!hidden"}`;
+    deleteIcon.addEventListener("click", () => {
+      confirmDeleteTask(task.id);
+      renderModal(mesgModal[1], true, deleteTask);
+    });
+
+    actionsDiv.appendChild(editIcon);
+    //actionsDiv.appendChild(checkIcon);
+    actionsDiv.appendChild(deleteIcon);
+
+    li.appendChild(checkIcon);
+    li.appendChild(nameSpan);
+    li.appendChild(actionsDiv);
+
+    list.appendChild(li);
+  });
+}
 
 function verificedTaskDuplicate() {
 	renderModal(mesgModal[4], false, closeModal);
