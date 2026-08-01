@@ -99,14 +99,16 @@
                 </button>
               </div>
             </div>
-            <div class="w-2/5 text-lg gap-2 flex justify-center">
+            <div class="w-3/5 text-lg gap-2 flex justify-center">
               <button
                 type="submit"
                 id="registerButton"
                 onclick="sendDataUser()"
                 class="bg-secondary cursor-pointer px-3 py-1 rounded-md text-white mb-3"
               >
-                Registro
+                <span id="registerText">Registrarte</span>
+
+                <i id="registerSpinner" class="fa-solid fa-spinner fa-spin hidden!"></i>
               </button>
             </div>
           </div>

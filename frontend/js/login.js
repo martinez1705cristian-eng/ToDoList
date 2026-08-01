@@ -52,7 +52,7 @@ async function sendDataUser() {
   loginButton.disabled = true;
   loginButton.classList.add("opacity-50", "cursor-not-allowed");
   loginText.textContent = "Cargando...";
-  loginSpinner.classList.remove("hidden");
+  loginSpinner.classList.remove("hidden!");
 
   
   try {
@@ -76,7 +76,7 @@ async function sendDataUser() {
 	loginButton.disabled = false;
     loginButton.classList.remove("opacity-50", "cursor-not-allowed");
     loginText.textContent = "Iniciar Sesión";
-    loginSpinner.classList.add("hidden");
+    loginSpinner.classList.add("hidden!");
     
     showServerErrorModal(error);
 	
