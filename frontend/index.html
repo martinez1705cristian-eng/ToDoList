@@ -4,29 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-Do List</title>
-    <link rel="icon" href="./assets/icon.png" type="image/x-icon">
-   
-  <link rel="stylesheet" href="css/output.css">
-     <link
+    <link rel="icon" href="./assets/icon.png" type="image/x-icon" />
+
+    <script type="module">
+      fetch("https://todolist-euh0.onrender.com/test")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          return console.log(data);
+        })
+        .catch((error) => console.error("Error:", error));
+    </script>
+
+    <link rel="stylesheet" href="css/output.css" />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     />
-       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body
-    class="flex flex-col justify-between bg-primary min-h-screen font-mono  text-slate-700"
+    class="flex flex-col justify-between bg-primary min-h-screen font-mono text-slate-700"
   >
     <header
       class="w-full flex gap-3 px-6 py-4 border-b border-amber-50 shadow justify-between items-center bg-primary"
     >
-        <span class="brand-font text-xl font-semibold text-[#1E3A5F]"
-          >To-Do App</span
-        >      
-        <a
-          href="public/login.html"
-          class="bg-secondary text-md font-bold transition-all duration-100 hover:-translate-y-1 text-white px-3 py-2 rounded-full hover:bg-[#1E3A5F]"
-          >Ingresar</a
-        >
+      <span class="brand-font text-xl font-semibold text-[#1E3A5F]"
+        >To-Do App</span
+      >
+      <a
+        href="public/login.html"
+        class="bg-secondary text-md font-bold transition-all duration-100 hover:-translate-y-1 text-white px-3 py-2 rounded-full hover:bg-[#1E3A5F]"
+        >Ingresar</a
+      >
     </header>
 
     <main
@@ -35,7 +46,7 @@
       <div class="w-8/12 flex justify-center mb-6 md:mb-0 md:order-2 md:w-1/2">
         <img src="assets/dog-hero.avif" alt="" />
       </div>
-      
+
       <div
         class="w-full text-center md:text-left md:order-1 md:w-1/2 flex flex-col items-center md:items-start"
       >
@@ -55,7 +66,7 @@
 
         <a
           href="./public/test.html"
-          class="hover:scale-105 duration-300 w-4/5 sm:w-auto inline-block text-center bg-secondary text-white font-bold text-lg px-4 py-3 rounded-2xl shadow-md hover:bg-[#1E3A5F] hover:shadow-lg active:scale-95 transition-all mb-6 "
+          class="hover:scale-105 duration-300 w-4/5 sm:w-auto inline-block text-center bg-secondary text-white font-bold text-lg px-4 py-3 rounded-2xl shadow-md hover:bg-[#1E3A5F] hover:shadow-lg active:scale-95 transition-all mb-6"
         >
           Comenzar Gratis
         </a>
@@ -63,50 +74,66 @@
         <div
           class="w-full max-w-sm bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-white/60 shadow-sm text-left"
         >
-        <div class="flex justify-center items-center gap-3 mb-4">
+          <div class="flex justify-center items-center gap-3 mb-4">
             <i class="text-xl fa-solid fa-pencil"></i>
             <span class="text-xl">Tareas de Dooby</span>
-        </div>
+          </div>
 
           <div class="flex items-center gap-3 mb-3 text-slate-400">
-           
-            <i class="text-2xl text-slate-40 fa-regular fa-square rounded-2xl"></i>
-             
-            <span class="font-medium text-slate-500 "
-              >Intentar huir</span
-            >
+            <i
+              class="text-2xl text-slate-40 fa-regular fa-square rounded-2xl"
+            ></i>
+
+            <span class="font-medium text-slate-500">Intentar huir</span>
           </div>
           <div class="flex items-center gap-3 mb-3">
             <div>
-              <i class="text-2xl text-secondary fa-regular fa-square-check rounded-2xl"></i>
+              <i
+                class="text-2xl text-secondary fa-regular fa-square-check rounded-2xl"
+              ></i>
             </div>
-            <span class="line-through font-semibold text-[#1E3A5F]">Orinar la sala</span>
+            <span class="line-through font-semibold text-[#1E3A5F]"
+              >Orinar la sala</span
+            >
           </div>
           <div class="flex items-center gap-3">
-          <i class=" text-2xl text-slate-400 fa-regular fa-square rounded-2xl"></i>
-             
-            <span class="font-medium text-slate-500"
-              >Morder zapatos</span
-            >
+            <i
+              class="text-2xl text-slate-400 fa-regular fa-square rounded-2xl"
+            ></i>
+
+            <span class="font-medium text-slate-500">Morder zapatos</span>
           </div>
         </div>
       </div>
     </main>
 
-    <footer class=" border-t border-amber-50 shadow-top" >
-        <div class="w-full bg-transparent py-6 px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[#1E3A5F]/90 max-w-7xl text-lg mx-auto">
-            <div class="flex items-center gap-1.5">
-                <span>Hecho con</span>
-                <span class="text-red-500 animate-pulse">❤️</span>
-                <span>y mucho JavaScript</span>
-            </div>
-            <div class="flex items-center gap-6 text-3xl text-[#1E3A5F]/80">
-                <a href="https://github.com/cmartinezcode/" class="hover:text-secondary hover:scale-120 transition-transform "><i class="fab fa-github "></i></a>
-                <a href="https://www.linkedin.com/in/cmartinezcode/" class="hover:text-secondary hover:scale-120 transition-transform"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:martinez.1705.cristian@gmail.com" class="hover:text-secondary hover:scale-120 transition-transform"><i class="fas fa-envelope"></i></a>
-            </div>
+    <footer class="border-t border-amber-50 shadow-top">
+      <div
+        class="w-full bg-transparent py-6 px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[#1E3A5F]/90 max-w-7xl text-lg mx-auto"
+      >
+        <div class="flex items-center gap-1.5">
+          <span>Hecho con</span>
+          <span class="text-red-500 animate-pulse">❤️</span>
+          <span>y mucho JavaScript</span>
         </div>
+        <div class="flex items-center gap-6 text-3xl text-[#1E3A5F]/80">
+          <a
+            href="https://github.com/cmartinezcode/"
+            class="hover:text-secondary hover:scale-120 transition-transform"
+            ><i class="fab fa-github"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/in/cmartinezcode/"
+            class="hover:text-secondary hover:scale-120 transition-transform"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <a
+            href="mailto:martinez.1705.cristian@gmail.com"
+            class="hover:text-secondary hover:scale-120 transition-transform"
+            ><i class="fas fa-envelope"></i
+          ></a>
+        </div>
+      </div>
     </footer>
-    
   </body>
 </html>

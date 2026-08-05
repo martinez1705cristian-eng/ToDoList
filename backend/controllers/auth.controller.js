@@ -31,7 +31,10 @@ export const login = async (req, res) => {
     }
 
     const user = result.rows[0];
+
+    console.time("Bcrypt Compare");
     const match = await bcrypt.compare(password, user.password);
+    console.timeEnd("Bcrypt Compare"); // <--- ¿Cuánto tarda esto?
 
     if (!match) {
       return res.status(401).json({ message: "Contraseña inválida" });
